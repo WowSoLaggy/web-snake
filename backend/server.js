@@ -27,7 +27,7 @@ app.post('/api/scores', async (req, res) => {
 });
 
 app.get('/api/scores', async (req, res) => {
-    const scores = await Score.find().sort({ score: -1 }).limit(20);
+    const scores = await Score.find().sort({ score: -1 }).limit(10);
     res.json(scores);
 });
 

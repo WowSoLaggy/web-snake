@@ -55,7 +55,8 @@ async function gameLoop() {
         drawFood();
         moveSnake();
         drawSnake();
-        gameLoop();
+        directionChanged = false; // Сброс флага после изменения направления
+        gameLoop(); // Продолжаем игровой цикл
     }, speed);
 }
 
@@ -90,6 +91,8 @@ function moveSnake() {
 }
 
 function changeDirection(event) {
+    if (directionChanged) return; // Блокировка изменения направления
+
     const goingUp = direction.y === -gridSize;
     const goingDown = direction.y === gridSize;
     const goingRight = direction.x === gridSize;
@@ -109,6 +112,7 @@ function changeDirection(event) {
     // Проверка на разворот на 180 градусов
     if (newDirection && (newDirection.x !== -direction.x || newDirection.y !== -direction.y)) {
         direction = newDirection;
+        directionChanged = true; // Установка флага после изменения направления
     }
 }
 
