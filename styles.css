@@ -1,0 +1,57 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #333; /* Темно-серый фон */
+}
+
+#game-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000; /* Цвет фона контейнера */
+    padding: 10px; /* Пустое пространство вокруг игрового поля */
+    border: 1px solid #444; /* Тонкая рамка вокруг поля */
+}
+
+#gameCanvas {
+    background-color: #111;
+    border: 1px solid #444;
+}
+
+#game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border: 2px solid #fff;
+    text-align: center;
+    color: #fff;
+}
+
+#win-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 128, 0, 0.8); /* Зеленый фон для окна победы */
+    padding: 20px;
+    border: 2px solid #fff;
+    text-align: center;
+    color: #fff;
+}
+
+.hidden {
+    display: none;
+}
+
+#score {
+    margin-top: 10px;
+    color: #fff;
+    font-size: 24px;
+}
