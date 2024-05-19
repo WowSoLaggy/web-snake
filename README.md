@@ -22,25 +22,25 @@ This is a modern implementation of the classic Snake game built with HTML, CSS, 
 ### Installation
 
 1. **Clone the repository**:
-    \`\`\`bash
+    ```bash
     git clone https://github.com/WowSoLaggy/web-snake.git
     cd snake-game
-    \`\`\`
+    ```
 
 2. **Install server dependencies**:
-    \`\`\`bash
+    ```bash
     npm install
-    \`\`\`
+    ```
 
 3. **Start the MongoDB server**:
-    \`\`\`bash
+    ```bash
     mongod
-    \`\`\`
+    ```
 
 4. **Run the server**:
-    \`\`\`bash
+    ```bash
     node server.js
-    \`\`\`
+    ```
 
 5. **Open the game in your browser**:
     Navigate to `http://localhost:3000` to start playing.
