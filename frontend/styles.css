@@ -1,5 +1,6 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -122,4 +123,11 @@ button {
 
 button:hover {
     background-color: #e6c200;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #bbb;
+    font-size: 14px;
 }
