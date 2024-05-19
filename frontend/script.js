@@ -1,3 +1,20 @@
+document.addEventListener('DOMContentLoaded', () => {
+    checkServerStatus();
+});
+
+async function checkServerStatus() {
+    try {
+        const response = await fetch('http://localhost:3000/api/scores');
+        if (!response.ok) {
+            throw new Error('Server unavailable');
+        }
+    } catch (error) {
+        document.body.innerHTML = '<div id="error"><p>Server is currently unavailable. Please try again later.</p></div>';
+        console.error('Server check failed:', error);
+    }
+}
+
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const restartButton = document.getElementById("restartButton");
