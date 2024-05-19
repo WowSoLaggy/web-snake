@@ -1,8 +1,15 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const restartButton = document.getElementById("restartButton");
+const restartButtonWin = document.getElementById("restartButtonWin");
 const gameOverScreen = document.getElementById("game-over");
+const winScreen = document.getElementById("win-screen");
 const scoreDisplay = document.getElementById("score");
+const submitScoreForm = document.getElementById("submitScoreForm");
+const submitScoreFormWin = document.getElementById("submitScoreFormWin");
+const nameInput = document.getElementById("nameInput");
+const nameInputWin = document.getElementById("nameInputWin");
+const scoreTableBody = document.querySelector("#scoreTable tbody");
 
 const gridSize = 20;
 const canvasSize = 400;
@@ -17,10 +24,20 @@ let speed = 100;
 
 document.addEventListener("keydown", changeDirection);
 restartButton.addEventListener("click", restartGame);
+restartButtonWin.addEventListener("click", restartGame);
+submitScoreForm.addEventListener("submit", submitScore);
+submitScoreFormWin.addEventListener("submit", submitScore);
 
-function gameLoop() {
+async function gameLoop() {
     if (isGameOver()) {
         showGameOverScreen();
+        await loadScores();
+        return;
+    }
+
+    if (isWin()) {
+        showWinScreen();
+        await loadScores();
         return;
     }
 
@@ -28,7 +45,7 @@ function gameLoop() {
         clearCanvas();
         drawFood();
         moveSnake();
-        drawSnake(); // Ensure the snake is drawn after it moves
+        drawSnake();
         gameLoop();
     }, speed);
 }
@@ -46,6 +63,21 @@ function drawSnake() {
         ctx.lineWidth = 2; // Толщина рамки
         ctx.strokeRect(part.x, part.y, gridSize, gridSize);
     });
+}
+
+function moveSnake() {
+    const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+    snake.unshift(head);
+
+    if (head.x === food.x && head.y === food.y) {
+        score += 10;
+        speed = Math.max(50, speed - 2); // Increase speed
+        food = getRandomFoodPosition();
+    } else {
+        snake.pop();
+    }
+
+    updateScore();
 }
 
 function changeDirection(event) {
@@ -70,23 +102,6 @@ function changeDirection(event) {
         direction = newDirection;
     }
 }
-
-
-function moveSnake() {
-    const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-    snake.unshift(head);
-
-    if (head.x === food.x && head.y === food.y) {
-        score += 1;
-        speed = Math.max(40, speed - 1); // Increase speed
-        food = getRandomFoodPosition();
-    } else {
-        snake.pop();
-    }
-
-    updateScore();
-}
-
 
 function drawFood() {
     ctx.fillStyle = "red";
@@ -115,12 +130,25 @@ function isGameOver() {
     return hitWall || hitSelf;
 }
 
+function isWin() {
+    // Check if the snake has filled the entire board
+    return snake.length === (canvasSize / gridSize) * (canvasSize / gridSize);
+}
+
 function showGameOverScreen() {
     gameOverScreen.classList.remove("hidden");
 }
 
+function showWinScreen() {
+    winScreen.classList.remove("hidden");
+}
+
 function hideGameOverScreen() {
     gameOverScreen.classList.add("hidden");
+}
+
+function hideWinScreen() {
+    winScreen.classList.add("hidden");
 }
 
 function restartGame() {
@@ -131,6 +159,7 @@ function restartGame() {
     speed = 100;
     updateScore();
     hideGameOverScreen();
+    hideWinScreen();
     gameLoop();
 }
 
@@ -138,4 +167,42 @@ function updateScore() {
     scoreDisplay.textContent = `Score: ${score}`;
 }
 
+async function submitScore(event) {
+    event.preventDefault();
+    const name = event.target.querySelector('input').value;
+    await fetch('http://localhost:3000/api/scores', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, score })
+    });
+    await loadScores(); // Обновление списка лидеров
+    restartGame();
+}
+
+
+async function loadScores() {
+    const response = await fetch('http://localhost:3000/api/scores');
+    const scores = await response.json();
+    scoreTableBody.innerHTML = scores.map(score => {
+        const date = new Date(score.date);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяцы от 0 до 11
+        const year = date.getFullYear();
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
+        return `
+            <tr>
+                <td>${score.name}</td>
+                <td>${score.score}</td>
+                <td>${formattedDate}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
 gameLoop();
+loadScores();

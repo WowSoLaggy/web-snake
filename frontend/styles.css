@@ -1,0 +1,121 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #333; /* Темно-серый фон */
+}
+
+#container {
+    display: flex;
+}
+
+#leaderboard {
+    margin-right: 20px;
+    color: #fff;
+    background-color: #222;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#leaderboard h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #ffd700; /* Золотистый цвет для заголовка */
+}
+
+#scoreTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#scoreTable th, #scoreTable td {
+    border: 1px solid #444;
+    padding: 8px;
+    text-align: center;
+    color: #fff;
+}
+
+#scoreTable th {
+    background-color: #555;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#scoreTable tr:nth-child(even) {
+    background-color: #444;
+}
+
+#scoreTable tr:nth-child(odd) {
+    background-color: #555;
+}
+
+#game-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #000; /* Цвет фона контейнера */
+    padding: 10px; /* Пустое пространство вокруг игрового поля */
+    border: 1px solid #444; /* Тонкая рамка вокруг поля */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#gameCanvas {
+    background-color: #111;
+    border: 1px solid #444;
+    border-radius: 10px;
+}
+
+#game-over, #win-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border: 2px solid #fff;
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+#score {
+    margin-top: 10px;
+    color: #fff;
+    font-size: 24px;
+}
+
+form {
+    margin-top: 10px;
+}
+
+input {
+    padding: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+    border: 1px solid #555;
+}
+
+button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffd700; /* Золотистый цвет для кнопок */
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e6c200;
+}
