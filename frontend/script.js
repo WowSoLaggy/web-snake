@@ -16,11 +16,20 @@ const canvasSize = 400;
 canvas.width = canvasSize;
 canvas.height = canvasSize;
 
-let snake = [{ x: gridSize * 5, y: gridSize * 5 }];
-let direction = { x: 0, y: 0 };
-let food = getRandomFoodPosition();
-let score = 0;
-let speed = 100;
+let snake, direction, food, score, speed;
+
+function initializeGame() {
+    const startPosition = {
+        x: Math.floor(canvasSize / 2 / gridSize) * gridSize,
+        y: Math.floor(canvasSize / 2 / gridSize) * gridSize
+    };
+
+    snake = [startPosition];
+    direction = { x: 0, y: 0 };
+    food = getRandomFoodPosition();
+    score = 0;
+    speed = 100;
+}
 
 document.addEventListener("keydown", changeDirection);
 restartButton.addEventListener("click", restartGame);
@@ -70,8 +79,8 @@ function moveSnake() {
     snake.unshift(head);
 
     if (head.x === food.x && head.y === food.y) {
-        score += 10;
-        speed = Math.max(50, speed - 2); // Increase speed
+        score += 1; // Увеличиваем счет только на 1
+        speed = Math.max(50, speed - 2); // Увеличиваем скорость
         food = getRandomFoodPosition();
     } else {
         snake.pop();
@@ -152,11 +161,7 @@ function hideWinScreen() {
 }
 
 function restartGame() {
-    snake = [{ x: gridSize * 5, y: gridSize * 5 }];
-    direction = { x: 0, y: 0 };
-    food = getRandomFoodPosition();
-    score = 0;
-    speed = 100;
+    initializeGame();
     updateScore();
     hideGameOverScreen();
     hideWinScreen();
@@ -181,7 +186,6 @@ async function submitScore(event) {
     restartGame();
 }
 
-
 async function loadScores() {
     const response = await fetch('http://localhost:3000/api/scores');
     const scores = await response.json();
@@ -193,7 +197,7 @@ async function loadScores() {
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
-        const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
+        const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
         return `
             <tr>
                 <td>${score.name}</td>
@@ -204,5 +208,6 @@ async function loadScores() {
     }).join('');
 }
 
+initializeGame();
 gameLoop();
 loadScores();
