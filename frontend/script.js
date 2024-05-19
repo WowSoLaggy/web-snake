@@ -8,8 +8,11 @@ async function checkServerStatus() {
         if (!response.ok) {
             throw new Error('Server unavailable');
         }
+        document.getElementById('content').classList.remove('hidden');
+        document.getElementById('error').style.display = 'none'; // Скрываем сообщение об ошибке
     } catch (error) {
-        document.body.innerHTML = '<div id="error"><p>Server is currently unavailable. Please try again later.</p></div>';
+        document.getElementById('content').classList.add('hidden');
+        document.getElementById('error').style.display = 'block'; // Показываем сообщение об ошибке
         console.error('Server check failed:', error);
     }
 }
@@ -34,6 +37,7 @@ canvas.width = canvasSize;
 canvas.height = canvasSize;
 
 let snake, direction, food, score, speed;
+let directionChanged = false; // Флаг для блокировки изменения направления
 
 function initializeGame() {
     const startPosition = {
@@ -46,6 +50,7 @@ function initializeGame() {
     food = getRandomFoodPosition();
     score = 0;
     speed = 100;
+    directionChanged = false; // Сброс флага при инициализации игры
 }
 
 document.addEventListener("keydown", changeDirection);

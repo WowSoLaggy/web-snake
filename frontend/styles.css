@@ -8,6 +8,21 @@ body {
     background-color: #333; /* Темно-серый фон */
 }
 
+.hidden {
+    display: none;
+}
+
+#error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #fff;
+    background-color: #333;
+    font-size: 24px;
+    text-align: center;
+}
+
 #container {
     display: flex;
 }
@@ -89,10 +104,6 @@ body {
     border-radius: 10px;
 }
 
-.hidden {
-    display: none;
-}
-
 #score {
     margin-top: 10px;
     color: #fff;
@@ -130,15 +141,4 @@ footer {
     text-align: center;
     color: #bbb;
     font-size: 14px;
-}
-
-#error {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #fff;
-    background-color: #333;
-    font-size: 24px;
-    text-align: center;
 }
