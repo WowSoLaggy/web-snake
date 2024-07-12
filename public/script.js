@@ -1,4 +1,4 @@
-const scores_api = 'http://snake.laggy.info/api/highscore';
+const scores_api = 'https://snake.laggy.info/api/highscore';
 
 
 document.addEventListener('DOMContentLoaded', () => {
