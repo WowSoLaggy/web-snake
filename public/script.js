@@ -1,10 +1,13 @@
+const scores_api = 'http://snake.laggy.info/api/highscore';
+
+
 document.addEventListener('DOMContentLoaded', () => {
     checkServerStatus();
 });
 
 async function checkServerStatus() {
     try {
-        const response = await fetch('http://localhost:3000/api/scores');
+        const response = await fetch(scores_api);
         if (!response.ok) {
             throw new Error('Server unavailable');
         }
@@ -201,7 +204,7 @@ function updateScore() {
 async function submitScore(event) {
     event.preventDefault();
     const name = event.target.querySelector('input').value;
-    await fetch('http://localhost:3000/api/scores', {
+    await fetch(scores_api, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -213,7 +216,7 @@ async function submitScore(event) {
 }
 
 async function loadScores() {
-    const response = await fetch('http://localhost:3000/api/scores');
+    const response = await fetch(scores_api);
     const scores = await response.json();
     scoreTableBody.innerHTML = scores.map(score => {
         const date = new Date(score.date);
